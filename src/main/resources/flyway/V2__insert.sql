@@ -1,11 +1,11 @@
-INSERT INTO products (id, name, price, weight, color)
-VALUES ('566bcbf0-3e44-445a-90aa-9d7adf3e2ce4', 'ProductF', 179.33, 19.52, 'Green'),
-       ('12ae1bc5-a976-4096-9633-72de3d7fdf8c', 'ProductE', 308.86, 13.99, 'Orange'),
-       ('f9e407c4-618b-44a5-a324-a7a929f02bf5', 'ProductI', 416.50, 19.36, 'Green'),
-       ('eb4bfcc1-96a3-4f71-9f9f-7a2eebd83a7e', 'ProductA', 204.09, 18.51, 'Red'),
-       ('e4a78039-c9f3-4e74-88f8-6e269e0d43f6', 'ProductB', 210.42, 12.35, 'Grey'),
-       ('44f82c65-b79a-4c15-bbae-3c86acd1498a', 'ProductI', 92.66, 7.37, 'Orange'),
-       ('796c2887-b756-4e64-875f-f1cfb9b1a4a5', 'ProductJ', 478.07, 18.7, 'White'),
-       ('66b1b72c-6d58-4c57-83b3-08cb5936febd', 'ProductE', 442.99, 10.99, 'White'),
-       ('d2c81b36-f35e-4aca-8df0-899680bc47e1', 'ProductC', 107.20, 12.14, 'Yellow'),
-       ('56047d47-9103-4fb7-812c-2d66cf27f364', 'ProductG', 343.06, 8.86, 'Orange');
+INSERT INTO products (id, name, price, weight, creation_date)
+VALUES ('dcce95ba-46ea-4739-887b-1de051755ac7', 'ProductA', 428.26, 3.79, '2023-11-13 03:09:02'),
+       ('1d9411b4-53cc-42fc-8eeb-ab5d4c3820ba', 'ProductB', 79.67, 8.84, '2023-11-13 03:09:02'),
+       ('c2d60cf9-006d-452d-b0fb-ca70f78d2102', 'ProductC', 360.07, 16.96, '2023-11-13 03:09:02'),
+       ('50fd3bc5-06e1-4e29-a441-4d91ed404e3a', 'ProductD', 195.98, 9.75, '2023-11-13 03:09:02'),
+       ('540cdb32-ace5-4b81-9388-5a4dc9c479cf', 'ProductE', 482.51, 17.81, '2023-11-13 03:09:02'),
+       ('1bcf2c7a-9778-4887-b5ef-37b3140d278f', 'ProductF', 473.25, 14.12, '2023-11-13 03:09:02'),
+       ('7c934f03-e58e-4b76-9a1f-398466ee3785', 'ProductJ', 58.39, 5.31, '2023-11-13 03:09:02'),
+       ('96d42a47-f9b9-4b45-b1fb-267db5e6a342', 'ProductH', 379.51, 16.95, '2023-11-13 03:09:02'),
+       ('0868cce8-ba84-4d61-a8d4-b96f5e64d1b5', 'ProductI', 412.29, 2.35, '2023-11-13 03:09:02'),
+       ('8a5e82ac-731b-4dc4-b861-4c38cca887e3', 'ProductL', 162.03, 11.44, '2023-11-13 03:09:02');

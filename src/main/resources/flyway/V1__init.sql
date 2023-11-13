@@ -3,5 +3,5 @@ CREATE TABLE products (
                           name VARCHAR(255),
                           price DOUBLE PRECISION,
                           weight DOUBLE PRECISION,
-                          color VARCHAR(50)
+                          creation_date TIMESTAMP
 );
