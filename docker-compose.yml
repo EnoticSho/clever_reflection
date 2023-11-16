@@ -21,7 +21,7 @@ services:
     image: boxfuse/flyway
     container_name: my-flyway
     volumes:
-      - ./Server_ClevertecBank/flyway/sql:/flyway/sql
+      - ./src/main/resources/flyway:/flyway/sql
     depends_on:
       postgres:
         condition: service_healthy
