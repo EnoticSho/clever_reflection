@@ -10,10 +10,10 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Builder
 @ToString
+@NoArgsConstructor
+@AllArgsConstructor
 public class Product {
 
     private UUID id;

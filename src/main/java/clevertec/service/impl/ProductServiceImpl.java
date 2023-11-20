@@ -1,19 +1,21 @@
-package clevertec.service;
+package clevertec.service.impl;
 
 import clevertec.dto.InfoProductDto;
 import clevertec.dto.ProductDto;
 import clevertec.entity.Product;
 import clevertec.mapper.ProductMapper;
-import clevertec.proxy.DaoProxy;
+import clevertec.proxy.DaoProxyImpl;
+import clevertec.service.ProductService;
 import lombok.RequiredArgsConstructor;
 
+import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
 @RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
-    private final DaoProxy daoProxy;
+    private final DaoProxyImpl daoProxy;
     private final ProductMapper productMapper;
 
     @Override
@@ -30,15 +32,16 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public UUID update(UUID uuid, ProductDto productDto) {
+    public UUID update(UUID uuid, @Valid ProductDto productDto) {
         Product byId = daoProxy.getProductById(uuid);
         Product merge = productMapper.merge(byId, productDto);
         return daoProxy.update(merge).getId();
     }
 
     @Override
-    public UUID create(ProductDto productDto) {
+    public UUID create(@Valid ProductDto productDto) {
         Product product = productMapper.toProduct(productDto);
+        product.setId(UUID.randomUUID());
         product.setCreated(LocalDateTime.now());
         return daoProxy.saveProduct(product).getId();
     }

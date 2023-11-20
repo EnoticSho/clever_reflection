@@ -1,4 +1,4 @@
-package clevertec.dbConnection;
+package clevertec.config.dbConnection;
 
 import clevertec.config.ConfigurationLoader;
 

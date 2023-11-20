@@ -1,8 +1,8 @@
 package clevertec.proxy;
 
 import clevertec.cache.Cache;
-import clevertec.cache.LfuCache;
-import clevertec.cache.LruCache;
+import clevertec.cache.impl.LfuCache;
+import clevertec.cache.impl.LruCache;
 import clevertec.config.ConfigurationLoader;
 import clevertec.dao.ProductDao;
 import clevertec.entity.Product;
@@ -16,7 +16,7 @@ import java.util.UUID;
 /**
  * Прокси-класс для доступа к данным продуктов, инкапсулирующий логику кэширования.
  */
-public class DaoProxy {
+public class DaoProxyImpl {
     private final ProductDao productDao;
     private final Cache<UUID, Product> cache;
 
@@ -26,9 +26,20 @@ public class DaoProxy {
      * @param productDao DAO для работы с продуктами
      * @throws IOException если возникает ошибка при инициализации кэша
      */
-    public DaoProxy(ProductDao productDao) throws IOException {
+    public DaoProxyImpl(ProductDao productDao) throws IOException {
         this.productDao = productDao;
         this.cache = cacheInit();
+    }
+
+    /**
+     * Конструктор DaoProxy.
+     *
+     * @param productDao DAO для работы с продуктами
+     * @param cache кэш для работы с продуктами
+     */
+    public DaoProxyImpl(ProductDao productDao, Cache<UUID, Product> cache) {
+        this.productDao = productDao;
+        this.cache = cache;
     }
 
     /**

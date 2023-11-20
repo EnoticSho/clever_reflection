@@ -1,6 +1,7 @@
-package clevertec.dao;
+package clevertec.dao.impl;
 
-import clevertec.dbConnection.DatabaseConnectionManager;
+import clevertec.config.dbConnection.DatabaseConnectionManager;
+import clevertec.dao.ProductDao;
 import clevertec.entity.Product;
 import lombok.RequiredArgsConstructor;
 
@@ -102,7 +103,6 @@ public class ProductDaoImpl implements ProductDao {
                 VALUES (?, ?, ?, ?, ?);
                 """;
 
-        product.setId(UUID.randomUUID()); // Generate a new UUID for new product
         try (Connection connection = databaseConnectionManager.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setObject(1, product.getId());

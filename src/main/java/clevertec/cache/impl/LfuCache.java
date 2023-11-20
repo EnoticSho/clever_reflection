@@ -1,10 +1,12 @@
-package clevertec.cache;
+package clevertec.cache.impl;
 
+import clevertec.cache.Cache;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
-import java.util.Optional;
+import java.util.TreeMap;
 
 /**
  * Реализация стратегии кэширования "Least Frequently Used" (LFU).
@@ -14,11 +16,12 @@ import java.util.Optional;
  * @param <V> тип значений, хранящихся в кэше
  */
 @Slf4j
-public class LfuCache<K, V> implements Cache<K, V>{
+public class LfuCache<K, V> implements Cache<K, V> {
 
     private final int capacity;
     private final Map<K, V> mainMap;
     private final Map<K, Integer> freqMap;
+    private final TreeMap<Integer, LinkedList<K>> freqList;
 
     /**
      * Конструктор для создания кэша LFU с заданной вместимостью.
@@ -29,6 +32,7 @@ public class LfuCache<K, V> implements Cache<K, V>{
         this.capacity = capacity;
         this.mainMap = new HashMap<>();
         this.freqMap = new HashMap<>();
+        this.freqList = new TreeMap<>();
         log.info("LFU Cache initialized with capacity: {}", capacity);
     }
 
@@ -41,24 +45,24 @@ public class LfuCache<K, V> implements Cache<K, V>{
      */
     @Override
     public void put(K key, V value) {
+        if (key == null || value == null) {
+            log.warn("Key or value cannot be null");
+            return;
+        }
+
         if (mainMap.containsKey(key)) {
-            freqMap.put(key, freqMap.get(key) + 1);
             mainMap.put(key, value);
-            log.debug("Updated key: {}, Frequency: {}", key, freqMap.get(key));
+            updateFrequency(key);
         } else {
             if (mainMap.size() >= capacity) {
-                Optional<K> freqKey = freqMap.entrySet().stream()
-                        .min(Map.Entry.comparingByValue())
-                        .map(Map.Entry::getKey);
-                freqKey.ifPresent(f -> {
-                    mainMap.remove(f);
-                    freqMap.remove(f);
-                });
+                K leastFreqKey = deleteLeastFrequentKey();
+                log.debug("Removed least frequent key: {}", leastFreqKey);
             }
             mainMap.put(key, value);
             freqMap.put(key, 1);
-            log.debug("Added new key: {}, capacity: {}", key,  capacity);
+            freqList.computeIfAbsent(1, k -> new LinkedList<>()).add(key);
         }
+        log.debug("Key added or updated: {}", key);
     }
 
     /**
@@ -69,12 +73,12 @@ public class LfuCache<K, V> implements Cache<K, V>{
      */
     @Override
     public V get(K key) {
-        if (!mainMap.containsKey(key)) {
-            log.debug("Key not found: {}", key);
+        if (key == null || !mainMap.containsKey(key)) {
+            log.debug("Key not found or null: {}", key);
             return null;
         }
-        freqMap.put(key, freqMap.get(key) + 1);
-        log.debug("Retrieved key: {}, Frequency: {}", key, freqMap.get(key));
+        updateFrequency(key);
+        log.debug("Value retrieved for key {}", key);
         return mainMap.get(key);
     }
 
@@ -85,10 +89,36 @@ public class LfuCache<K, V> implements Cache<K, V>{
      */
     @Override
     public void delete(K key) {
-        if (mainMap.containsKey(key)) {
+        if (key != null && mainMap.containsKey(key)) {
+            Integer freq = freqMap.remove(key);
             mainMap.remove(key);
-            freqMap.remove(key);
-            log.debug("Deleted key: {}", key);
+            LinkedList<K> keys = freqList.get(freq);
+            keys.remove(key);
+            if (keys.isEmpty()) {
+                freqList.remove(freq);
+            }
+            log.debug("Key deleted: {}", key);
         }
+    }
+
+    private void updateFrequency(K key) {
+        Integer freq = freqMap.get(key);
+        freqList.get(freq).remove(key);
+        if (freqList.get(freq).isEmpty()) {
+            freqList.remove(freq);
+        }
+        freqMap.put(key, freq + 1);
+        freqList.computeIfAbsent(freq + 1, k -> new LinkedList<>()).add(key);
+    }
+
+    private K deleteLeastFrequentKey() {
+        Integer leastFreq = freqList.firstKey();
+        K key = freqList.get(leastFreq).removeFirst();
+        if (freqList.get(leastFreq).isEmpty()) {
+            freqList.remove(leastFreq);
+        }
+        mainMap.remove(key);
+        freqMap.remove(key);
+        return key;
     }
 }

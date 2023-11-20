@@ -1,5 +1,6 @@
-package clevertec.cache;
+package clevertec.cache.impl;
 
+import clevertec.cache.Cache;
 import clevertec.config.ConfigurationLoader;
 import lombok.extern.slf4j.Slf4j;
 
