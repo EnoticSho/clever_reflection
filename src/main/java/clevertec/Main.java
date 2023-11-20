@@ -21,12 +21,17 @@ public class Main {
         service.get(UUID.fromString("1d9411b4-53cc-42fc-8eeb-ab5d4c3820ba"));
         service.getAllProducts().forEach(System.out::println);
         System.out.println(infoProductDto);
+
         InfoProductDto infoProductDto1 = service.get(UUID.fromString("1d9411b4-53cc-42fc-8eeb-ab5d4c3820ba"));
         InfoProductDto infoProductDto2 = service.get(UUID.fromString("1d9411b4-53cc-42fc-8eeb-ab5d4c3820ba"));
         InfoProductDto infoProductDto3 = service.get(UUID.fromString("1d9411b4-53cc-42fc-8eeb-ab5d4c3820ba"));
+
         XmlSerializer xmlSerializer = new XmlSerializer();
         String serialize = xmlSerializer.serialize(infoProductDto1);
         System.out.println(serialize);
+
+        service.getAllProducts().forEach(System.out::println);
+        service.delete(UUID.fromString("1d9411b4-53cc-42fc-8eeb-ab5d4c3820ba"));
         service.getAllProducts().forEach(System.out::println);
         System.out.println(infoProductDto);
     }
